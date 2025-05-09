@@ -1,0 +1,58 @@
+name: "bot-sniper-2"
+env_file: ".env"
+rpc_endpoint: "${SOLANA_NODE_RPC_ENDPOINT}"
+wss_endpoint: "${SOLANA_NODE_WSS_ENDPOINT}"
+private_key: "${SOLANA_PRIVATE_KEY}"
+
+enabled: true
+separate_process: false
+
+# Trading parameters
+trade:
+  buy_amount: 0.005
+  buy_slippage: 0.3
+  sell_slippage: 0.3
+  volume_threshold: 30.0
+  monitor_duration: 30
+  extreme_fast_mode: false
+  extreme_fast_token_amount: 20
+
+# Priority fee configuration
+priority_fees:
+  enable_dynamic: false
+  enable_fixed: true
+  fixed_amount: 500_000
+  extra_percentage: 0.0
+  hard_cap: 500_000
+
+filters:
+  listener_type: "pumpportal"
+  match_string: ""
+  marry_mode: false
+  yolo_mode: true
+  # ← Keep this to maintain compatibility:
+  max_token_age: 60.0
+
+# Timing and retries
+timing:
+  max_token_age: 60.0
+  token_wait_timeout: 60
+
+retries:
+  max_attempts: 1
+  wait_after_creation: 5
+  wait_after_buy: 5
+  wait_before_new_token: 5
+
+cleanup:
+  mode: "post_session"
+  force_close_with_burn: false
+  with_priority_fee: false
+
+# New position management settings
+position_management:
+  max_positions: 3                      # Maximum number of open positions
+  take_profit_tiers: [1.2, 1.5, 2.0]    # Target price multipliers for take profits
+  sell_portions: [0.33, 0.33, 1.0]      # Portion to sell at each tier (must sum to 1.0)
+  stop_loss_pct: 0.15                   # Stop loss percentage (10%)
+  trailing_stop_pct: 0.15               # Trailing stop percentage (10%)
